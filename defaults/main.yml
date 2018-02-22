@@ -1,0 +1,3 @@
+---
+pgdumper_docker_image: andrchalov/pgdumper
+pgdumper_dir: /data/pgdumper

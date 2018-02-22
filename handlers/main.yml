@@ -1,0 +1,4 @@
+---
+- name: plan to restart
+  set_fact:
+    __pgdumper_restart: true

@@ -1,0 +1,6 @@
+# auto generated crontab file
+{% for item in pgdumper_jobs %}
+# {{item.name}}
+{{item.m|default(0)}} {{item.h|default(0)}} {{item.dom|default('*')}} {{item.mon|default('*')}} {{item.dow|default('*')}}  root  find /dumps/{{item.filename_prefix}}.*.gz -mtime +{{item.store_days}} -type f -delete
+{{item.m|default(0)}} {{item.h|default(0)}} {{item.dom|default('*')}} {{item.mon|default('*')}} {{item.dow|default('*')}}  root  pg_dump -U {{item.pguser}} -d {{item.pgdb}} -h {{item.pghost}} -p {{item.pgport|default(5432)}} -w {{item.dumpargs|default('')}} -Z {{item.compress_level|default(5)}} -f /dumps/{{item.filename_prefix}}.$(date +"\%Y\%m\%d_\%H\%M\%S").sql.gz 2>&1 | /usr/bin/logger -t pgdumper
+{% endfor %}

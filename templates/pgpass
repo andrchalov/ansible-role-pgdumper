@@ -1,0 +1,3 @@
+{% for item in pgdumper_jobs %}
+{{item.pghost}}:{{item.pgport|default(5432)}}:{{item.pgdb}}:{{item.pguser}}:{{item.pgpassword}}
+{% endfor %}

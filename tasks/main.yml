@@ -1,0 +1,45 @@
+---
+- name: Create pgdumper dir
+  file:
+    dest="{{pgdumper_dir}}"
+    mode="0700"
+    state=directory
+
+- name: Create pgdumper dirs
+  file:
+    dest="{{pgdumper_dir}}/{{item}}"
+    state=directory
+  with_items:
+    - dumps
+    - cron.d
+    - root
+
+- name: Copy pgdumper crontab
+  template:
+    src: crontab
+    dest: "{{pgdumper_dir}}/cron.d/crontab"
+  notify: plan to restart
+
+- name: Create .pgpass file
+  template:
+    src: pgpass
+    dest: "{{pgdumper_dir}}/root/.pgpass"
+    mode: "0600"
+  notify: plan to restart
+
+- meta: flush_handlers
+
+- name: (Re)start pgdumper container
+  docker_container:
+    name: pgdumper
+    image: "{{pgdumper_docker_image}}"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - "{{pgdumper_dir}}/cron.d:/etc/cron.d"
+      - "{{pgdumper_dir}}/dumps:/dumps"
+      - "{{pgdumper_dir}}/root:/root"
+    network_mode: host
+    pull: "{{__pgdumper_restart | default(false)}}"
+    restart: "{{__pgdumper_restart | default(false)}}"
+    restart_policy: always
+    state: started
