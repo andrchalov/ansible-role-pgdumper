@@ -4,7 +4,6 @@ TELEGRAM_BOT_API_KEY={{pgdumper_telegram.bot_api_key}}
 TELEGRAM_CHANNEL={{pgdumper_telegram.channel}}
 {% endif %}
 
-
 LOG_PREFIX={{pgdumper_log_prefix}}
 
 * * * * *   backup  find /dumps/* -mtime +{{pgdumper_store_days}} -type f -delete

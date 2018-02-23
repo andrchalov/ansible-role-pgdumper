@@ -1,18 +1,24 @@
 ---
 - name: Create pgdumper dir
   file:
-    dest="{{pgdumper_dir}}"
-    mode="0700"
-    state=directory
+    dest: "{{pgdumper_dir}}"
+    mode: "0700"
+    state: directory
 
 - name: Create pgdumper dirs
   file:
-    dest="{{pgdumper_dir}}/{{item}}"
-    state=directory
+    dest: "{{pgdumper_dir}}/{{item}}"
+    state: directory
   with_items:
-    - dumps
     - cron.d
     - home
+
+- name: Ensure pgdumper dumps folder exists
+  file:
+    dest: "{{pgdumper_dir}}/dumps"
+    mode: "0775"
+    group: "34"
+    state: directory
 
 - name: Copy pgdumper crontab
   template:
@@ -31,6 +37,7 @@
     src: pgpass
     dest: "{{pgdumper_dir}}/home/.pgpass"
     mode: "0600"
+    owner: "34"
   notify: plan to restart
 
 - meta: flush_handlers
