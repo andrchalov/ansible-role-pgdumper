@@ -10,4 +10,6 @@ CMD mkdir /dumps
 VOLUME /etc/cron.d
 VOLUME /dumps
 
+USER backup
+
 CMD service rsyslog start && service cron start && tail -f /var/log/syslog

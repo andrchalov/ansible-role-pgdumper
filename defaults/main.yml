@@ -1,15 +1,4 @@
 ---
 pgdumper_docker_image: andrchalov/pgdumper
-pgdumper_dir: /data/pgdumper
-
-# FOR EXAMPLE
-# pgdumper_jobs:
-#   - name: postgres database daily dump in 00:00
-#     filename_prefix: postgres
-#     store_days: 5
-#     pguser: postgres
-#     pgdb: postgres
-#     pghost: 127.0.0.1
-#     pgpassword: "password"
-#     m: "0"
-#     h: "0"
+pgdumper_log_prefix: 'pgdumper: '
+pgdumper_pgpass: []

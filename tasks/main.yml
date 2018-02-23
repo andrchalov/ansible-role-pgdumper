@@ -20,6 +20,12 @@
     dest: "{{pgdumper_dir}}/cron.d/crontab"
   notify: plan to restart
 
+- name: Copy pgdumper script
+  copy:
+    src: pgdumper.py
+    dest: "{{pgdumper_dir}}/root/pgdumper.py"
+  notify: plan to restart
+
 - name: Create .pgpass file
   template:
     src: pgpass
