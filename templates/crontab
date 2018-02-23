@@ -4,11 +4,12 @@ TELEGRAM_BOT_API_KEY={{pgdumper_telegram.bot_api_key}}
 TELEGRAM_CHANNEL={{pgdumper_telegram.channel}}
 {% endif %}
 
+
 LOG_PREFIX={{pgdumper_log_prefix}}
 
-* * * * *   root  find /dumps/* -mtime +{{pgdumper_store_days}} -type f -delete
+* * * * *   backup  find /dumps/* -mtime +{{pgdumper_store_days}} -type f -delete
 
 {% for item in pgdumper_jobs %}
 # {{item.name}}
-{{item.m|default(0)}} {{item.h|default(0)}} {{item.dom|default('*')}} {{item.mon|default('*')}} {{item.dow|default('*')}}  root  python3 /root/pgdumper.py {{item.pgdump_args|join(' ')}} 2>&1 | /usr/bin/logger -t pgdumper
+{{item.m|default(0)}} {{item.h|default(0)}} {{item.dom|default('*')}} {{item.mon|default('*')}} {{item.dow|default('*')}}  backup  python3 /var/backups/pgdumper.py {{item.pgdump_args|join(' ')}} 2>&1 | /usr/bin/logger -t pgdumper
 {% endfor %}

@@ -12,7 +12,7 @@
   with_items:
     - dumps
     - cron.d
-    - root
+    - home
 
 - name: Copy pgdumper crontab
   template:
@@ -23,13 +23,13 @@
 - name: Copy pgdumper script
   copy:
     src: pgdumper.py
-    dest: "{{pgdumper_dir}}/root/pgdumper.py"
+    dest: "{{pgdumper_dir}}/home/pgdumper.py"
   notify: plan to restart
 
 - name: Create .pgpass file
   template:
     src: pgpass
-    dest: "{{pgdumper_dir}}/root/.pgpass"
+    dest: "{{pgdumper_dir}}/home/.pgpass"
     mode: "0600"
   notify: plan to restart
 
@@ -43,7 +43,7 @@
       - /etc/localtime:/etc/localtime:ro
       - "{{pgdumper_dir}}/cron.d:/etc/cron.d"
       - "{{pgdumper_dir}}/dumps:/dumps"
-      - "{{pgdumper_dir}}/root:/root"
+      - "{{pgdumper_dir}}/home:/var/backups"
     network_mode: host
     pull: "{{__pgdumper_restart | default(false)}}"
     restart: "{{__pgdumper_restart | default(false)}}"
