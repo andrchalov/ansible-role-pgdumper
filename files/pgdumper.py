@@ -32,7 +32,13 @@ def send_message(msg, iserror=False):
   url = "https://api.telegram.org/bot"+TELEGRAM_BOT_API_KEY+"/sendMessage";
 
   req = urllib.request.Request(url, data=params, headers={'content-type': 'application/json'})
-  response = urllib.request.urlopen(req)
+
+  try:
+    response = urllib.request.urlopen(req)
+  except urllib.error.HTTPError as e:
+    error_message = e.read()
+    print(error_message)
+    raise
 
 def convert_bytes(num):
   """
@@ -51,6 +57,8 @@ def file_size(file_path):
   if os.path.isfile(file_path):
       file_info = os.stat(file_path)
       return convert_bytes(file_info.st_size)
+  else:
+    raise Exception('File not exists', file_path)
 
 def pretty_time(sec):
   m, s = divmod(sec, 60)
