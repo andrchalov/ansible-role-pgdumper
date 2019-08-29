@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  author: Andrey Chalov
+  description: Ansible role for scheduling pd_dump events.
+  license: "license (BSD, MIT)"
+  min_ansible_version: 2.4
+  platforms:
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+  galaxy_tags:
+    - docker
+    - postgresql
+    - dumper
+    - ubuntu
